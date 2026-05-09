@@ -1,2 +1,3 @@
 # find-luigi
-basically, this is just our project for the assignment our teacher gave us
+
+Basically, this is just our project for an assignment given by our teacher.
