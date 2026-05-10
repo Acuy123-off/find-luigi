@@ -13,4 +13,4 @@ members of this project :
 
 # what is "find luigi" ?
 
-Find luigi or is often called “Wanted!” are minigames from Super Mario 64 DS.
+"Find Luigi" or often called "Wanted!" is a minigame originating from Super Mario 64 DS.
