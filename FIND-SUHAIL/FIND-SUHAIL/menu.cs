@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,11 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace FIND_SUHAIL
 {
     public partial class menu : Form
     {
+
+        // Deklarasi player agar tidak membebani memori (reusable)
+        private SoundPlayer hoverSound = new SoundPlayer(@"hover.wav");
+        private SoundPlayer clickSound = new SoundPlayer(@"click.wav");
         public menu()
         {
             InitializeComponent();
@@ -19,10 +24,14 @@ namespace FIND_SUHAIL
     ControlStyles.UserPaint |
     ControlStyles.OptimizedDoubleBuffer, true);
             this.UpdateStyles();
+
+            //play.MouseEnter += play_MouseEnter;
+            //play.Click += play_Click;
         }
 
         private void play_Click(object sender, EventArgs e)
         {
+            clickSound.Play();
             Form1 r = new Form1();
             r.Show();
             this.Close();
@@ -124,6 +133,32 @@ namespace FIND_SUHAIL
             }
             // Paksa Form untuk menggambar ulang (memanggil event Paint)
             this.Invalidate();
+        }
+
+        private void menu_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void play_MouseEnter(object sender, EventArgs e)
+        {
+            hoverSound.Play();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            clickSound.Play();
+            Application.Exit();
+        }
+
+        private void menu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private void button2_MouseEnter(object sender, EventArgs e)
+        {
+            hoverSound.Play();
         }
     }
 }
