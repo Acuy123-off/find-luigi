@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -91,90 +91,7 @@ namespace FIND_SUHAIL
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-            //skorarara.Text = GlobalData.SkorTotal.ToString();
-            //axWindowsMediaPlayer1.settings.setMode("loop", true);
-            //axWindowsMediaPlayer1.URL = Application.StartupPath + "\\ty.mp3";
-            //axWindowsMediaPlayer1.Ctlcontrols.play();
-
-            Random rng = new Random();
-
-            int jumlahCloneBase = 1 + (GlobalData.SkorTotal * 2);
-            double jumlahCloneBase2 = 1 + (GlobalData.SkorTotal * 1.5);
-
-            // Ambil gambar dari PictureBox yang kamu maksud (Entitas Berbeda)
-            Image gambarTarget = Image.FromFile("luigi.png");/*pictureBox2.Image*/;
-            // Ambil gambar untuk Clone
-            Image gambarClone = Image.FromFile("yoshi.png");
-            Image gambarClone2 = Image.FromFile("wario.png");
-            Image gambarClone3 = Image.FromFile("mario.png");
-
-
-            //if (GlobalData.SkorTotal == 2)
-            //{
-            //    gambarClone = Image.FromFile("ridh.png");
-            //    gambarClone2 = Image.FromFile("suha.png");
-            //    gambarClone3 = Image.FromFile("syam.png");
-            //    gambarTarget = Image.FromFile("hayk.png");
-            //}
-            if (GlobalData.SkorTotal >= 1)
-            {
-                this.WindowState = FormWindowState.Maximized;
-                jumlahCloneBase = 1 + (GlobalData.SkorTotal * 3);
-                jumlahCloneBase2 = 1 + (GlobalData.SkorTotal * 2.5);
-                Color myColor = ColorTranslator.FromHtml("#50B040");
-                this.BackColor = myColor;
-            }
-            for (int i = 0; i < jumlahCloneBase2; i++)
-            {
-                LogoBergerak baru = new LogoBergerak();
-                baru.X = rng.Next(0, this.ClientSize.Width - 60);
-                baru.Y = rng.Next(0, this.ClientSize.Height - 60);
-                baru.SpeedX = rng.Next(3, 6);
-                baru.SpeedY = rng.Next(3, 6);
-
-
-                if (i == 0) // Kita tentukan indeks ke-0 sebagai yang asli
-                {
-                    baru.Gambar = gambarTarget;
-                    baru.IsTarget = true;
-                }
-                else // Sisanya adalah clone
-                {
-                    baru.Gambar = gambarClone;
-                    baru.IsTarget = false;
-                }
-
-                daftarLogo.Add(baru);
-            }
-            for (int i = 0; i < jumlahCloneBase; i++)
-            {
-                LogoBergerak baru = new LogoBergerak();
-                baru.X = rng.Next(0, this.ClientSize.Width - 60);
-                baru.Y = rng.Next(0, this.ClientSize.Height - 60);
-                baru.SpeedX = rng.Next(3, 6);
-                baru.SpeedY = rng.Next(3, 6);
-
-
-                    baru.Gambar = gambarClone2;
-                    baru.IsTarget = false;
-
-                daftarLogo.Add(baru);
-            }
-            for (int i = 0; i < jumlahCloneBase; i++)
-            {
-                LogoBergerak baru = new LogoBergerak();
-                baru.X = rng.Next(0, this.ClientSize.Width - 60);
-                baru.Y = rng.Next(0, this.ClientSize.Height - 60);
-                baru.SpeedX = rng.Next(3, 6);
-                baru.SpeedY = rng.Next(3, 6);
-
-
-                baru.Gambar = gambarClone3;
-                baru.IsTarget = false;
-
-                daftarLogo.Add(baru);
-            }
+            ResetLevel();
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -185,13 +102,19 @@ namespace FIND_SUHAIL
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            skorarara.Text = GlobalData.SkorTotal.ToString();
+            //skorarara.Text = GlobalData.SkorTotal.ToString();
             // Di sinilah keajaiban terjadi. PNG akan merender transparansi dengan benar.
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
             foreach (var logo in daftarLogo)
             {
                 e.Graphics.DrawImage(logo.Gambar, logo.X, logo.Y, logo.Width, logo.Height);
+            }
+
+            string textSkor = "Skor: " + GlobalData.SkorTotal.ToString();
+            using (Font myFont = new Font("Arial", 16, FontStyle.Bold))
+            {
+                e.Graphics.DrawString(textSkor, myFont, Brushes.White, 10, 10);
             }
         }
 
@@ -269,9 +192,109 @@ namespace FIND_SUHAIL
             GlobalData.SkorTotal += 1;
             MessageBox.Show("Kamu menemukan Luigi!, skormu :" + GlobalData.SkorTotal);
 
-            Form1 r = new Form1();
-            r.Show();
-            this.Close();
+            //Form1 r = new Form1();
+            //r.Show();
+            //this.Close();
+            ResetLevel();
+        }
+
+        private void ResetLevel()
+        {
+            // 1. Bersihkan list yang lama supaya memori lega
+            daftarLogo.Clear();
+
+            //skorarara.Text = GlobalData.SkorTotal.ToString();
+            //axWindowsMediaPlayer1.settings.setMode("loop", true);
+            //axWindowsMediaPlayer1.URL = Application.StartupPath + "\\ty.mp3";
+            //axWindowsMediaPlayer1.Ctlcontrols.play();
+
+            Random rng = new Random();
+
+            int jumlahCloneBase = 1 + (GlobalData.SkorTotal * 2);
+            double jumlahCloneBase2 = 1 + (GlobalData.SkorTotal * 1.5);
+
+            // Ambil gambar dari PictureBox yang kamu maksud (Entitas Berbeda)
+            Image gambarTarget = Image.FromFile("luigi.png");/*pictureBox2.Image*/;
+            // Ambil gambar untuk Clone
+            Image gambarClone = Image.FromFile("yoshi.png");
+            Image gambarClone2 = Image.FromFile("wario.png");
+            Image gambarClone3 = Image.FromFile("mario.png");
+
+
+            //if (GlobalData.SkorTotal == 2)
+            //{
+            //    gambarClone = Image.FromFile("ridh.png");
+            //    gambarClone2 = Image.FromFile("suha.png");
+            //    gambarClone3 = Image.FromFile("syam.png");
+            //    gambarTarget = Image.FromFile("hayk.png");
+            //}
+            if (GlobalData.SkorTotal >= 20)
+            {
+                this.WindowState = FormWindowState.Maximized;
+                jumlahCloneBase = 1 + (GlobalData.SkorTotal * 3);
+                jumlahCloneBase2 = 1 + (GlobalData.SkorTotal * 2.5);
+                Color myColor = ColorTranslator.FromHtml("#50B040");
+                this.BackColor = myColor;
+            }
+            for (int i = 0; i < jumlahCloneBase2; i++)
+            {
+                LogoBergerak baru = new LogoBergerak();
+                baru.X = rng.Next(0, this.ClientSize.Width - 60);
+                baru.Y = rng.Next(0, this.ClientSize.Height - 60);
+                baru.SpeedX = rng.Next(3, 6);
+                baru.SpeedY = rng.Next(3, 6);
+
+
+                baru.SpeedX = rng.Next(3, 6) * (rng.Next(0, 2) == 0 ? 1 : -1);
+                baru.SpeedY = rng.Next(3, 6) * (rng.Next(0, 2) == 0 ? 1 : -1);
+
+                if (i == 0) // Kita tentukan indeks ke-0 sebagai yang asli
+                {
+                    baru.Gambar = gambarTarget;
+                    baru.IsTarget = true;
+                }
+                else // Sisanya adalah clone
+                {
+                    baru.Gambar = gambarClone;
+                    baru.IsTarget = false;
+                }
+
+                daftarLogo.Add(baru);
+            }
+            for (int i = 0; i < jumlahCloneBase; i++)
+            {
+                LogoBergerak baru = new LogoBergerak();
+                baru.X = rng.Next(0, this.ClientSize.Width - 60);
+                baru.Y = rng.Next(0, this.ClientSize.Height - 60);
+                baru.SpeedX = rng.Next(3, 6);
+                baru.SpeedY = rng.Next(3, 6);
+
+
+                baru.SpeedX = rng.Next(3, 6) * (rng.Next(0, 2) == 0 ? 1 : -1);
+                baru.SpeedY = rng.Next(3, 6) * (rng.Next(0, 2) == 0 ? 1 : -1);
+
+                baru.Gambar = gambarClone2;
+                baru.IsTarget = false;
+
+                daftarLogo.Add(baru);
+            }
+            for (int i = 0; i < jumlahCloneBase; i++)
+            {
+                LogoBergerak baru = new LogoBergerak();
+                baru.X = rng.Next(0, this.ClientSize.Width - 60);
+                baru.Y = rng.Next(0, this.ClientSize.Height - 60);
+                baru.SpeedX = rng.Next(3, 6);
+                baru.SpeedY = rng.Next(3, 6);
+
+                baru.SpeedX = rng.Next(3, 6) * (rng.Next(0, 2) == 0 ? 1 : -1);
+                baru.SpeedY = rng.Next(3, 6) * (rng.Next(0, 2) == 0 ? 1 : -1);
+
+                baru.Gambar = gambarClone3;
+                baru.IsTarget = false;
+
+                daftarLogo.Add(baru);
+            }
+            this.Invalidate();
         }
 
         private void axWindowsMediaPlayer1_Enter(object sender, EventArgs e)
