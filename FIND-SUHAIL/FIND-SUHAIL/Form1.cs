@@ -197,36 +197,81 @@ namespace FIND_SUHAIL
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
+            //for (int i = daftarLogo.Count - 1; i >= 0; i--)
+            //{
+            //    var logo = daftarLogo[i];
+            //    RectangleF area = new RectangleF(logo.X, logo.Y, logo.Width, logo.Height);
+
+            //    if (area.Contains(e.Location))
+            //    {
+            //        if (logo.IsTarget)
+            //        {
+            //            SoundPlayer j = new SoundPlayer(Properties.Resources.luigi_woaaahh_scream1);
+            //            j.Play();
+            //            ////skore++;
+            //            //info.instance.skor += 1;
+            //            GlobalData.SkorTotal += 1;
+            //            skorarara.Text = GlobalData.SkorTotal.ToString();
+            //            MessageBox.Show("Kamu menemukan Luigi!, skormu :" + GlobalData.SkorTotal);
+            //            //this.Refresh();
+            //            Form1 r = new Form1();
+            //            r.Show();
+            //            this.Close();
+            //            // Aksi khusus untuk target...
+            //        }
+            //        else
+            //        {
+            //            // Ini jika user klik yang salah (Clone)
+            //            // Kamu bisa kosongkan atau beri penalti
+            //        }
+            //        break;
+            //    }
+            //}
+            // LANGKAH 1: Cek khusus untuk Target (Luigi) dulu
+            // Kita cari apakah ada Target yang terkena klik
+            foreach (var logo in daftarLogo)
+            {
+                if (logo.IsTarget)
+                {
+                    RectangleF area = new RectangleF(logo.X, logo.Y, logo.Width, logo.Height);
+                    if (area.Contains(e.Location))
+                    {
+                        // Jika kena target, langsung jalankan fungsi menang dan KELUAR dari method
+                        BerhasilMenang();
+                        return; // Berhenti di sini, jangan cek yang lain
+                    }
+                }
+            }
+
+            // LANGKAH 2: Jika kode sampai di sini, berarti tidak ada target yang kena klik.
+            // Baru kita cek apakah ada Clone (salah klik) yang terkena.
             for (int i = daftarLogo.Count - 1; i >= 0; i--)
             {
                 var logo = daftarLogo[i];
-                RectangleF area = new RectangleF(logo.X, logo.Y, logo.Width, logo.Height);
-
-                if (area.Contains(e.Location))
+                if (!logo.IsTarget) // Hanya cek yang bukan target
                 {
-                    if (logo.IsTarget)
+                    RectangleF area = new RectangleF(logo.X, logo.Y, logo.Width, logo.Height);
+                    if (area.Contains(e.Location))
                     {
-                        SoundPlayer j = new SoundPlayer(Properties.Resources.luigi_woaaahh_scream1);
-                        j.Play();
-                        ////skore++;
-                        //info.instance.skor += 1;
-                        GlobalData.SkorTotal += 1;
-                        skorarara.Text = GlobalData.SkorTotal.ToString();
-                        MessageBox.Show("Kamu menemukan Luigi!, skormu :" + GlobalData.SkorTotal);
-                        //this.Refresh();
-                        Form1 r = new Form1();
-                        r.Show();
-                        this.Close();
-                        // Aksi khusus untuk target...
+                        // Logika jika user klik clone (yang salah)
+                        // MessageBox.Show("Itu bukan Luigi!");
+                        break;
                     }
-                    else
-                    {
-                        // Ini jika user klik yang salah (Clone)
-                        // Kamu bisa kosongkan atau beri penalti
-                    }
-                    break;
                 }
             }
+        }
+
+        private void BerhasilMenang()
+        {
+            SoundPlayer j = new SoundPlayer(Properties.Resources.luigi_woaaahh_scream1);
+            j.Play();
+
+            GlobalData.SkorTotal += 1;
+            MessageBox.Show("Kamu menemukan Luigi!, skormu :" + GlobalData.SkorTotal);
+
+            Form1 r = new Form1();
+            r.Show();
+            this.Close();
         }
 
         private void axWindowsMediaPlayer1_Enter(object sender, EventArgs e)
